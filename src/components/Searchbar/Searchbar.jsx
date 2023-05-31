@@ -12,37 +12,48 @@ export class Searchbar extends Component {
     this.setState({ [name]: value });
   };
 
-  handleSubmit = (evt) => {
+  handleSubmit = evt => {
     evt.preventDefault();
-    const { searc } = this.state; 
+    const { searc } = this.state;
+    const trim = searc.trim();
 
-    this.props.onSubmit(searc)
+    if (!trim) {
+      return;
+    } else {
+      this.setState({ searc });
+    }
 
-    this.setState({ searc: '' });
+    this.props.onSubmit(searc);
   };
+
+  // handleChangePage = () => {
+
+  // }
 
   render() {
     const { searc } = this.state;
 
-    return ( 
-      <header className="searchbar">
-        <form className="form" onSubmit={this.handleSubmit}>
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
-          </button>
+    return (
+      <>
+        <header className="searchbar">
+          <form className="form" onSubmit={this.handleSubmit}>
+            <button type="submit" className="button">
+              <span className="button-label">Search</span>
+            </button>
 
-          <input
-            onChange={this.handleChangeSearc}
-            type="text"
-            className="input"
-            name="searc"
-            value={searc}
-            // autocomplete="off"
-            // autofocus
-            placeholder="Search images and photos"
-          />
-        </form>
-      </header>
+            <input
+              onChange={this.handleChangeSearc}
+              type="text"
+              className="input"
+              name="searc"
+              value={searc}
+              // autocomplete="off"
+              // autofocus
+              placeholder="Search images and photos"
+            />
+          </form>
+        </header>
+      </>
     );
   }
 }
