@@ -1,9 +1,14 @@
-// import css from './Searchbar.module.css';
+import css from './Searchbar.module.css';
+// import { BsSearch } from 'react-icons/fa/BsSearch';
+
 import { Component } from 'react';
+import { ImageGallery } from '../ImageGallery/ImageGallery';
+import { Button } from '../Button/Button';
 
 export class Searchbar extends Component {
   state = {
     searc: '',
+    page: 2,
   };
 
   handleChangeSearc = evt => {
@@ -26,25 +31,34 @@ export class Searchbar extends Component {
     this.props.onSubmit(searc);
   };
 
-  // handleChangePage = () => {
+  handleChangePage = () => {
+    const { searc, page } = this.state;
+    this.setState(prevState => {
+      return { page: prevState.page + 1 };
+    });
 
-  // }
+    this.props.onButton(searc, page);
+  };
 
   render() {
     const { searc } = this.state;
+    const { onImages } = this.props;
 
     return (
       <>
-        <header className="searchbar">
-          <form className="form" onSubmit={this.handleSubmit}>
-            <button type="submit" className="button">
-              <span className="button-label">Search</span>
+        <header className={css.searchbar}>
+          <form className={css.searchForm} onSubmit={this.handleSubmit}>
+            <button
+              type="submit"
+              className={`${css.searchFormButton} ${css.searchFormButtonHover}`}
+            >
+              <span>Search</span>
             </button>
 
             <input
               onChange={this.handleChangeSearc}
               type="text"
-              className="input"
+              className={`${css.searchFormInput} ${css.searchFormInputPlaceholder}`}
               name="searc"
               value={searc}
               // autocomplete="off"
@@ -53,7 +67,14 @@ export class Searchbar extends Component {
             />
           </form>
         </header>
+        <ImageGallery onImages={onImages} />
+
+        {onImages.length !== 0 && <Button onButton={this.handleChangePage} />}
       </>
     );
   }
 }
+
+// handleImeges = images => {
+//   this.onImages(images);
+// };
