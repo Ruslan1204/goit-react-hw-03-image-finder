@@ -25,14 +25,15 @@ export class App extends Component {
     this.fetchData({});
   }
 
-  componentDidUpdate(_, prevState) {
-    const { images } = this.state;
+  // async componentDidUpdate(_, prevState) {
+  //   const { images } = this.state;
 
-    if (prevState.length !== 0 && prevState.length !== images.length) {
-      // this.newFetchData({})
-      console.log('componentDidUpdate');
-    }
-  }
+  //   if (prevState.length !== 0 && prevState.length !== images.length) {
+  //     this.newFetchData({images})
+  //     // this.newFetchData()
+  //     console.log('componentDidUpdate');
+  //   }
+  // }
 
   fetchData = async ({ search = '', page = 1 }) => {
     this.setState({ isLoading: true });
