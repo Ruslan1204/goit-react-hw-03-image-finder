@@ -32,9 +32,6 @@ export class App extends Component {
     const { images, search, page } = this.state;
 
     if (prevState.images !== images) {
-      console.log('PrevState', prevState.images);
-      console.log('State', images);
-      console.log('componentDidUpdate');
 
       this.newFetchData(search, page);
     }
