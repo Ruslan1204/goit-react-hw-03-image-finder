@@ -34,7 +34,7 @@ export class App extends Component {
     const { images,searc,page} = this.state;
 
     if (prevState.images !== images) {
-      // this.setState({ images: this.newFetchData(searc,page) });
+    
       console.log('PrevState', prevState.images);
       console.log('State', images);
 
