@@ -1,80 +1,102 @@
 import css from './Searchbar.module.css';
 // import { BsSearch } from 'react-icons/fa/BsSearch';
 
-import { Component } from 'react';
-import { ImageGallery } from '../ImageGallery/ImageGallery';
-import { Button } from '../Button/Button';
+// import { Component } from 'react';
+// import { ImageGallery } from '../ImageGallery/ImageGallery';
+// import { Button } from '../Button/Button';
 
-export class Searchbar extends Component {
-  state = {
-    searc: '',
-    page: 2,
-  };
+export const Searchbar = ({ onSearc, onSubmit, onChange }) => {
+  return (
+    <header className={css.searchbar}>
+      <form className={css.searchForm} onSubmit={onSubmit}>
+        <button
+          type="submit"
+          className={`${css.searchFormButton} ${css.searchFormButtonHover}`}
+        >
+          <span>Search</span>
+        </button>
 
-  handleChangeSearc = evt => {
-    const { name, value } = evt.target;
+        <input
+          onChange={onChange}
+          type="text"
+          className={`${css.searchFormInput} ${css.searchFormInputPlaceholder}`}
+          name="searc"
+          value={onSearc}
+          // autocomplete="off"
+          // autofocus
+          placeholder="Search images and photos"
+        />
+      </form>
+    </header>
+  );
+};
 
-    this.setState({ [name]: value });
-  };
+// export class Searchbar extends Component {
+//   state = {
+//     searc: '',
+//     page: 2,
+//   };
 
-  handleSubmit = evt => {
-    evt.preventDefault();
-    const { searc } = this.state;
-    const trim = searc.trim();
+//   handleChangeSearc = evt => {
+//     const { name, value } = evt.target;
 
-    if (!trim) {
-      return;
-    } else {
-      this.setState({ searc });
-    }
+//     this.setState({ [name]: value });
+//   };
 
-    this.props.onSubmit(searc);
-  };
+//   handleSubmit = evt => {
+//     evt.preventDefault();
+//     const { searc } = this.state;
+//     const trim = searc.trim();
 
-  handleChangePage = () => {
-    const { searc, page } = this.state;
-    this.setState(prevState => {
-      return { page: prevState.page + 1 };
-    });
+//     if (!trim) {
+//       return;
+//     } else {
+//       this.setState({ searc });
+//     }
 
-    this.props.onButton(searc, page);
-  };
+//     this.props.onSubmit(searc);
+//   };
 
-  render() {
-    const { searc } = this.state;
-    const { onImages } = this.props;
+//   handleChangePage = () => {
+//     const { searc, page } = this.state;
+//     this.setState(prevState => {
+//       return { page: prevState.page + 1 };
+//     });
 
-    return (
-      <>
-        <header className={css.searchbar}>
-          <form className={css.searchForm} onSubmit={this.handleSubmit}>
-            <button
-              type="submit"
-              className={`${css.searchFormButton} ${css.searchFormButtonHover}`}
-            >
-              <span>Search</span>
-            </button>
+//     this.props.onButton(searc, page);
+//   };
 
-            <input
-              onChange={this.handleChangeSearc}
-              type="text"
-              className={`${css.searchFormInput} ${css.searchFormInputPlaceholder}`}
-              name="searc"
-              value={searc}
-              // autocomplete="off"
-              // autofocus
-              placeholder="Search images and photos"
-            />
-          </form>
-        </header>
-        <ImageGallery onImages={onImages} />
+//   render() {
+//     const { searc } = this.state;
+//     const { onImages } = this.props;
 
-        {onImages.length !== 0 && <Button onButton={this.handleChangePage} />}
-      </>
-    );
-  }
-}
+//     return (
+//       <>
+//         <header className={css.searchbar}>
+//           <form className={css.searchForm} onSubmit={this.handleSubmit}>
+//             <button
+//               type="submit"
+//               className={`${css.searchFormButton} ${css.searchFormButtonHover}`}
+//             >
+//               <span>Search</span>
+//             </button>
 
-// handleImeges = images => {
-//   this.onImages(images);
-// };
+//             <input
+//               onChange={this.handleChangeSearc}
+//               type="text"
+//               className={`${css.searchFormInput} ${css.searchFormInputPlaceholder}`}
+//               name="searc"
+//               value={searc}
+//               // autocomplete="off"
+//               // autofocus
+//               placeholder="Search images and photos"
+//             />
+//           </form>
+//         </header>
+//         <ImageGallery onImages={onImages} />
+
+//         {onImages.length !== 0 && <Button onButton={this.handleChangePage} />}
+//       </>
+//     );
+//   }
+// }

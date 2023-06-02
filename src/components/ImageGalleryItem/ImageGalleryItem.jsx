@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import css from './ImageGalleryItem.module.css';
-// import { Modal } from '../Modal/Modal';
+import { Modal } from '../Modal/Modal';
 
 // export const ImageGalleryItem = ({ webformat,largeImage }) => {
 //   return (
@@ -19,7 +19,7 @@ export class ImageGalleryItem extends Component {
     isModalOpen: false,
   };
 
-  openModal = () => {
+  openModal = evt => {
     this.setState({ isModalOpen: true });
   };
   closeModal = () => {
@@ -27,11 +27,11 @@ export class ImageGalleryItem extends Component {
   };
 
   render() {
-    // const { isModalOpen } = this.state;
-    const { webformat } = this.props;
+    const { isModalOpen } = this.state;
+    const { webformat, largeImage } = this.props;
     return (
       <>
-        <li className={css.imageGalleryItem}>
+        <li className={css.imageGalleryItem} onClick={this.openModal}>
           <img
             className={`${css.imageGalleryItemImage} ${css.imageGalleryItemImage}`}
             src={webformat}
@@ -39,7 +39,9 @@ export class ImageGalleryItem extends Component {
             width={200}
           />
         </li>
-        {/* <Modal largeImage={largeImage} onClick={this.openModal}/> */}
+        {isModalOpen && (
+          <Modal largeImage={largeImage} closeModal={this.closeModal} />
+        )}
       </>
     );
   }
