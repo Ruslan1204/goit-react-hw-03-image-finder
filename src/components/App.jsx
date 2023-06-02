@@ -30,18 +30,18 @@ export class App extends Component {
 
   }
 
-  componentDidUpdate(_, prevState) {
-    const { images,searc,page} = this.state;
+  // componentDidUpdate(_, prevState) {
+  //   const { images,searc,page} = this.state;
 
-    if (prevState.images !== images) {
+  //   if (prevState.images !== images) {
     
-      console.log('PrevState', prevState.images);
-      console.log('State', images);
+  //     console.log('PrevState', prevState.images);
+  //     console.log('State', images);
+  //     console.log('componentDidUpdate');
 
-      console.log('componentDidUpdate');
-      // this.newFetchData({searc,page})
-    }
-  }
+  //     // this.newFetchData(searc,page)
+  //   }
+  // }
 
   fetchData = async search => {
     this.setState({ isLoading: true });
