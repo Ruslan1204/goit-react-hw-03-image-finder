@@ -20,28 +20,25 @@ export class App extends Component {
     page: 2,
   };
 
-  componentDidMount() {
+   componentDidMount() {
     const { search } = this.state;
 
-    if(search){
+    if (search) {
       this.fetchData(search);
     }
-   
-
   }
 
-  // componentDidUpdate(_, prevState) {
-  //   const { images,searc,page} = this.state;
+  componentDidUpdate(_, prevState) {
+    const { images, search, page } = this.state;
 
-  //   if (prevState.images !== images) {
-    
-  //     console.log('PrevState', prevState.images);
-  //     console.log('State', images);
-  //     console.log('componentDidUpdate');
+    if (prevState.images !== images) {
+      console.log('PrevState', prevState.images);
+      console.log('State', images);
+      console.log('componentDidUpdate');
 
-  //     // this.newFetchData(searc,page)
-  //   }
-  // }
+      this.newFetchData(search, page);
+    }
+  }
 
   fetchData = async search => {
     this.setState({ isLoading: true });
