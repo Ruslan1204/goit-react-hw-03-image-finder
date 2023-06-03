@@ -1,4 +1,5 @@
 import css from './Searchbar.module.css';
+import PropTypes from 'prop-types';
 // import { BsSearch } from 'react-icons/fa/BsSearch';
 
 // import { Component } from 'react';
@@ -31,6 +32,22 @@ export const Searchbar = ({ onSearch, onSubmit, onChange,omDisabled }) => {
     </header>
   );
 };
+
+
+Searchbar.propTypes = {
+  onSearch:PropTypes.string.isRequired, 
+  onSubmit:PropTypes.func, 
+  onChange:PropTypes.func,
+  omDisabled:PropTypes.number.isRequired,
+}
+
+
+
+
+
+
+
+
 
 // export class Searchbar extends Component {
 //   state = {

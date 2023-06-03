@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import css from './ImageGalleryItem.module.css';
 import { Modal } from '../Modal/Modal';
+import PropTypes from 'prop-types';
 
 // export const ImageGalleryItem = ({ webformat,largeImage }) => {
 //   return (
@@ -45,4 +46,9 @@ export class ImageGalleryItem extends Component {
       </>
     );
   }
+}
+
+ImageGalleryItem.propTypes = {
+  webformat:PropTypes.string.isRequired, 
+  largeImage:PropTypes.string.isRequired,
 }
