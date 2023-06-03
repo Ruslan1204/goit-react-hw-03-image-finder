@@ -75,6 +75,7 @@ export class App extends Component {
         <Searchbar
           onSubmit={this.handleSearch}
           onSearch={search}
+          omDisabled={page}
           onChange={this.handleChangeSearc}
         />
 
