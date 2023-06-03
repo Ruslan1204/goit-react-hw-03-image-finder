@@ -4,7 +4,7 @@ export const Button = ({ onButton }) => {
   return (
     <div className={css.wrapper}>
       <button
-        className={`${css.button} ${css.buttonHover} ${css.buttonHover}`}
+        className={`${css.button} ${css.buttonHover} ${css.buttonFocus}`}
         type="button"
         onClick={onButton}
       >

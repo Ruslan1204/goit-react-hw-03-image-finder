@@ -16,33 +16,25 @@ export class App extends Component {
   state = {
     images: [],
     isLoading: false,
-    searc: '',
-    page: 2,
+    search: '',
+    page: 1,
   };
 
-   componentDidMount() {
-    const { search } = this.state;
-
-    if (search) {
-      this.fetchData(search);
-    }
-  }
-
   componentDidUpdate(_, prevState) {
-    const { images, search, page } = this.state;
+    const {search} = this.state
 
-    if (prevState.images !== images) {
-
-      this.newFetchData(search, page);
+    if(prevState.search !== search){
+      this.setState({page: 2})
     }
+
   }
 
-  fetchData = async search => {
+  fetchData = async ({ search = '' }) => {
     this.setState({ isLoading: true });
 
     try {
       const { data } = await axios.get(
-        `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&per_page=12&page=1`
+        `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=1&per_page=12`
       );
       this.setState({ images: data.hits });
     } catch (error) {
@@ -52,7 +44,8 @@ export class App extends Component {
     }
   };
 
-  newFetchData = async (search, page) => {
+  newFetchData = async ({ search, page }) => {
+
     this.setState(prevState => {
       return { page: prevState.page + 1 };
     });
@@ -61,7 +54,7 @@ export class App extends Component {
 
     try {
       const { data } = await axios.get(
-        `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&per_page=12&page=${page}`
+        `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=12`
       );
       this.setState(prevState => ({
         images: [...prevState.images, ...data.hits],
@@ -80,39 +73,34 @@ export class App extends Component {
 
   handleSearch = evt => {
     evt.preventDefault();
-    const { searc } = this.state;
-
-    const trim = searc.trim();
+    const { search } = this.state;
+    const trim = search.trim();
 
     if (!trim) {
       return;
     } else {
-      this.setState({ searc });
+      this.setState({ images: [] });
     }
 
-    // this.setState({ searc , page });
-    // console.log(searc, page)
-    this.fetchData(searc);
+    this.fetchData({ search });
   };
 
   render() {
-    const { isLoading, images, searc, page } = this.state;
-
+    const { isLoading, images, search, page } = this.state;
     return (
       <div className={css.app}>
-        {
-          <Searchbar
-            onSubmit={this.handleSearch}
-            onSearc={searc}
-            onChange={this.handleChangeSearc}
-          />
-        }
+        <Searchbar
+          onSubmit={this.handleSearch}
+          onSearch={search}
+          onChange={this.handleChangeSearc}
+        />
+
         {isLoading && <Loader />}
         <ImageGallery onImages={images} />
         {images.length !== 0 && (
           <Button
             onButton={() => {
-              this.newFetchData(searc, page);
+              this.newFetchData({ search, page });
             }}
           />
         )}

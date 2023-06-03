@@ -5,7 +5,7 @@ import css from './Searchbar.module.css';
 // import { ImageGallery } from '../ImageGallery/ImageGallery';
 // import { Button } from '../Button/Button';
 
-export const Searchbar = ({ onSearc, onSubmit, onChange }) => {
+export const Searchbar = ({ onSearch, onSubmit, onChange }) => {
   return (
     <header className={css.searchbar}>
       <form className={css.searchForm} onSubmit={onSubmit}>
@@ -20,8 +20,8 @@ export const Searchbar = ({ onSearc, onSubmit, onChange }) => {
           onChange={onChange}
           type="text"
           className={`${css.searchFormInput} ${css.searchFormInputPlaceholder}`}
-          name="searc"
-          value={onSearc}
+          name="search"
+          value={onSearch}
           // autocomplete="off"
           // autofocus
           placeholder="Search images and photos"
