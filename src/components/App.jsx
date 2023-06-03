@@ -21,31 +21,14 @@ export class App extends Component {
   };
 
   componentDidUpdate(_, prevState) {
-    const {search} = this.state
+    const { search } = this.state;
 
-    if(prevState.search !== search){
-      this.setState({page: 2})
+    if (prevState.search !== search) {
+      this.setState({ page: 1 });
     }
-
   }
 
-  fetchData = async ({ search = '' }) => {
-    this.setState({ isLoading: true });
-
-    try {
-      const { data } = await axios.get(
-        `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=1&per_page=12`
-      );
-      this.setState({ images: data.hits });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  };
-
   newFetchData = async ({ search, page }) => {
-
     this.setState(prevState => {
       return { page: prevState.page + 1 };
     });
@@ -73,7 +56,7 @@ export class App extends Component {
 
   handleSearch = evt => {
     evt.preventDefault();
-    const { search } = this.state;
+    const { search, page } = this.state;
     const trim = search.trim();
 
     if (!trim) {
@@ -82,7 +65,7 @@ export class App extends Component {
       this.setState({ images: [] });
     }
 
-    this.fetchData({ search });
+    this.newFetchData({ search, page });
   };
 
   render() {
@@ -108,6 +91,43 @@ export class App extends Component {
     );
   }
 }
+
+// fetchData = async ({ search = '' }) => {
+//   this.setState({ isLoading: true });
+
+//   try {
+//     const { data } = await axios.get(
+//       `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=1&per_page=12`
+//     );
+//     this.setState({ images: data.hits });
+//   } catch (error) {
+//     console.log(error);
+//   } finally {
+//     this.setState({ isLoading: false });
+//   }
+// };
+
+// newFetchData = async ({ search, page }) => {
+
+//   this.setState(prevState => {
+//     return { page: prevState.page + 1 };
+//   });
+
+//   this.setState({ isLoading: true });
+
+//   try {
+//     const { data } = await axios.get(
+//       `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=12`
+//     );
+//     this.setState(prevState => ({
+//       images: [...prevState.images, ...data.hits],
+//     }));
+//   } catch (error) {
+//     console.log(error);
+//   } finally {
+//     this.setState({ isLoading: false });
+//   }
+// };
 
 // handleChangePage = (search, page) => {
 
