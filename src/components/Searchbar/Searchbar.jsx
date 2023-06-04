@@ -1,5 +1,5 @@
 import css from './Searchbar.module.css';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import { BsSearch } from 'react-icons/fa/BsSearch';
 
 import { Component } from 'react';
@@ -25,10 +25,8 @@ export class Searchbar extends Component {
 
     this.props.onSearch(search);
 
-    this.props.onReset()
+    this.props.onReset();
   };
-
-
 
   render() {
     const { search } = this.state;
@@ -59,3 +57,7 @@ export class Searchbar extends Component {
   }
 }
 
+Searchbar.propTypes = {
+  onSearch: PropTypes.func,
+  onReset: PropTypes.func,
+};

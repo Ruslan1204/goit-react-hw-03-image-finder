@@ -20,7 +20,7 @@ export class ImageGalleryItem extends Component {
     isModalOpen: false,
   };
 
-  openModal = evt => {
+  openModal = () => {
     this.setState({ isModalOpen: true });
   };
   closeModal = () => {

@@ -17,5 +17,5 @@ export const Button = ({ onButton}) => {
 };
 
 Button.ropTypes = {
-  onButton: PropTypes.func,
+  onButton: PropTypes.func.isRequired,
 };
