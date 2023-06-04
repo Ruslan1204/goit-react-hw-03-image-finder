@@ -16,213 +16,72 @@ export class App extends Component {
   state = {
     images: [],
     isLoading: false,
-    search: '',
+    searcText: '',
     page: 1,
   };
 
-  componentDidUpdate(_, prevState) {
-    const { search } = this.state;
+  async componentDidUpdate(_, prevState) {
+    const { searchText, page } = this.state;
 
-    if (prevState.search !== search) {
-      this.setState({ page: 1 });
+    console.log(prevState.page !== page);
+    console.log(prevState.page)
+    console.log(page)
+
+
+
+    if (prevState.searchText !== searchText) {
+      this.fetchData(searchText, page);
+
+      this.setState({page: 2})
     }
   }
 
-  newFetchData = async ({ search, page }) => {
-    this.setState(prevState => {
-      return { page: prevState.page + 1 };
-    });
-
+  fetchData = async (searchText, page = 1) => {
+    console.log(searchText, page);
     this.setState({ isLoading: true });
-
     try {
       const { data } = await axios.get(
-        `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=12`
+        `${BASE_URL}?key=${API_KEY}&q=${searchText}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=12`
       );
+
       this.setState(prevState => ({
         images: [...prevState.images, ...data.hits],
       }));
     } catch (error) {
       console.log(error);
-    } finally {
+    }finally{
       this.setState({ isLoading: false });
     }
   };
 
-  handleChangeSearc = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
+  handleButton = () => {
+    const { searchText, page } = this.state;
+
+    this.setState(prevState => {
+      return { page: prevState.page + 1 };
+    });
+
+    this.fetchData(searchText, page);
   };
 
-  handleSearch = evt => {
-    evt.preventDefault();
-    const { search, page } = this.state;
-    const trim = search.trim();
+  handleSearch = searchText => {
+    this.setState({ searchText });
+  };
 
-    if (!trim) {
-      return;
-    } else {
-      this.setState({ images: [] });
-    }
-
-    this.newFetchData({ search, page });
+  handleReset = () => {
+    this.setState({ images: [] });
+    this.setState({ page: 1 });
   };
 
   render() {
-    const { isLoading, images, search, page } = this.state;
+    const { isLoading, images } = this.state;
     return (
       <div className={css.app}>
-        <Searchbar
-          onSubmit={this.handleSearch}
-          onSearch={search}
-          omDisabled={page}
-          onChange={this.handleChangeSearc}
-        />
-
-        {isLoading && <Loader />}
+        <Searchbar onSearch={this.handleSearch} onReset={this.handleReset} />
         <ImageGallery onImages={images} />
-        {images.length !== 0 && (
-          <Button
-            onButton={() => {
-              this.newFetchData({ search, page });
-            }}
-          />
-        )}
+        {isLoading && <Loader />}
+        {images.length !== 0 && !isLoading && <Button onButton={this.handleButton} />}
       </div>
     );
   }
 }
-
-// fetchData = async ({ search = '' }) => {
-//   this.setState({ isLoading: true });
-
-//   try {
-//     const { data } = await axios.get(
-//       `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=1&per_page=12`
-//     );
-//     this.setState({ images: data.hits });
-//   } catch (error) {
-//     console.log(error);
-//   } finally {
-//     this.setState({ isLoading: false });
-//   }
-// };
-
-// newFetchData = async ({ search, page }) => {
-
-//   this.setState(prevState => {
-//     return { page: prevState.page + 1 };
-//   });
-
-//   this.setState({ isLoading: true });
-
-//   try {
-//     const { data } = await axios.get(
-//       `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=12`
-//     );
-//     this.setState(prevState => ({
-//       images: [...prevState.images, ...data.hits],
-//     }));
-//   } catch (error) {
-//     console.log(error);
-//   } finally {
-//     this.setState({ isLoading: false });
-//   }
-// };
-
-// handleChangePage = (search, page) => {
-
-//   // handleChangePage = async (search, page) => {
-//   // const { page } = this.state;
-//   // this.setState(prevState => {
-//   //   return { page: prevState.page + 1 };
-//   // });
-
-//   // this.setState({ isLoading: false });
-
-//   // try {
-//   //   const { data } = await axios.get(
-//   //     `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&per_page=12&page=${page}`
-//   //   );
-//   //   this.setState(prevState => ({
-//   //     images: [...prevState.images, ...data.hits],
-//   //   }));
-//   // } catch (error) {
-//   //   console.log(error);
-//   // }
-// };
-
-// export class App extends Component {
-//   state = {
-//     images: [],
-//     isLoading: false,
-//   };
-
-//   async componentDidMount(isLoading) {
-//     if (!isLoading) {
-//       return;
-//     }
-//     this.fetchData({});
-//   }
-
-//   // async componentDidUpdate(_, prevState) {
-//   //   const { images } = this.state;
-
-//   //   if (prevState.length !== 0 && prevState.length !== images.length) {
-//   //     this.newFetchData({images})
-//   //     // this.newFetchData()
-//   //     console.log('componentDidUpdate');
-//   //   }
-//   // }
-
-//   fetchData = async ({ search = '', page = 1 }) => {
-//     this.setState({ isLoading: true });
-
-//     try {
-//       const { data } = await axios.get(
-//         `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&per_page=12&page=${page}`
-//       );
-//       this.setState({ images: data.hits });
-//     } catch (error) {
-//       console.log(error);
-//     } finally {
-//       this.setState({ isLoading: false });
-//     }
-//   };
-
-//   newFetchData = async (search, page) => {
-//     this.setState({ isLoading: false });
-
-//     try {
-//       const { data } = await axios.get(
-//         `${BASE_URL}?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&per_page=12&page=${page}`
-//       );
-//       this.setState(prevState => ({
-//         images: [...prevState.images, ...data.hits],
-//       }));
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-
-//   handleSearch = search => {
-//     this.fetchData({ search });
-//   };
-
-//   render() {
-//     const { isLoading, images } = this.state;
-
-//     return (
-//       <div className={css.app}>
-//         {
-//           <Searchbar
-//             onSubmit={this.handleSearch}
-//             onButton={this.newFetchData}
-//             onImages={images}
-//           />
-//         }
-//         {isLoading && <Loader />}
-//       </div>
-//     );
-//   }
-// }
