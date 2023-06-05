@@ -23,10 +23,10 @@ export class App extends Component {
   async componentDidUpdate(_, prevState) {
     const { searchText, page } = this.state;
 
-    if (prevState.searchText !== searchText) {
+    if (prevState.searchText !== searchText || prevState.page !== page) {
       this.fetchData(searchText, page);
 
-      this.setState({ page: 2 });
+      console.log('componentDidUpdate', page);
     }
   }
 
@@ -49,13 +49,9 @@ export class App extends Component {
   };
 
   handleButton = () => {
-    const { searchText, page } = this.state;
-
     this.setState(prevState => {
       return { page: prevState.page + 1 };
     });
-
-    this.fetchData(searchText, page);
   };
 
   handleSearch = searchText => {
@@ -63,10 +59,8 @@ export class App extends Component {
   };
 
   handleReset = () => {
-
     this.setState({ page: 1 });
     this.setState({ images: [] });
-
   };
 
   render() {
