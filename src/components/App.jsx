@@ -59,8 +59,7 @@ export class App extends Component {
   };
 
   handleReset = () => {
-    this.setState({ page: 1 });
-    this.setState({ images: [] });
+    this.setState({ images: [] , page: 1 });
   };
 
   render() {
@@ -68,7 +67,7 @@ export class App extends Component {
     return (
       <div className={css.app}>
         <Searchbar onSearch={this.handleSearch} onReset={this.handleReset} />
-        <ImageGallery onImages={images} />
+        {images.length !== 0 && <ImageGallery onImages={images} />}
         {isLoading && <Loader />}
         {images.length !== 0 && !isLoading && (
           <Button onButton={this.handleButton} />
