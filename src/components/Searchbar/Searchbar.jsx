@@ -20,12 +20,19 @@ export class Searchbar extends Component {
 
   handleSubmit = evt => {
     evt.preventDefault();
-
+  
     const { search } = this.state;
+
+    if(search.trim() === ''){
+      return;
+    }
+    this.setState({search: ''})
+
+    this.props.onReset();
 
     this.props.onSearch(search);
 
-    this.props.onReset();
+   
   };
 
   render() {
