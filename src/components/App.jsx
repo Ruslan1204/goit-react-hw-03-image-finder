@@ -23,16 +23,10 @@ export class App extends Component {
   async componentDidUpdate(_, prevState) {
     const { searchText, page } = this.state;
 
-    console.log(prevState.page !== page);
-    console.log(prevState.page)
-    console.log(page)
-
-
-
     if (prevState.searchText !== searchText) {
       this.fetchData(searchText, page);
 
-      this.setState({page: 2})
+      this.setState({ page: 2 });
     }
   }
 
@@ -49,7 +43,7 @@ export class App extends Component {
       }));
     } catch (error) {
       console.log(error);
-    }finally{
+    } finally {
       this.setState({ isLoading: false });
     }
   };
@@ -69,8 +63,10 @@ export class App extends Component {
   };
 
   handleReset = () => {
-    this.setState({ images: [] });
+
     this.setState({ page: 1 });
+    this.setState({ images: [] });
+
   };
 
   render() {
@@ -80,7 +76,9 @@ export class App extends Component {
         <Searchbar onSearch={this.handleSearch} onReset={this.handleReset} />
         <ImageGallery onImages={images} />
         {isLoading && <Loader />}
-        {images.length !== 0 && !isLoading && <Button onButton={this.handleButton} />}
+        {images.length !== 0 && !isLoading && (
+          <Button onButton={this.handleButton} />
+        )}
       </div>
     );
   }
